@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Adressliste Kooperationspartner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <div
+        id="app-toast"
+        class="app-toast"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        <span class="app-toast__text"></span>
+      </div>
+      <header class="page-header">
+        <div class="brand-row">
+          <img
+            class="app-logo"
+            src="assets/bwk-logo.png"
+            alt="BWK"
+            width="120"
+            height="40"
+            decoding="async"
+          />
+          <div class="brand-text">
+            <div class="brand-title-row">
+              <h1
+                id="app-title-heading"
+                class="app-title-editable"
+                tabindex="0"
+                title="Klicken zum Bearbeiten"
+              >
+                Adressliste Kooperationspartner
+              </h1>
+              <input
+                type="text"
+                id="app-title-input"
+                class="app-title-input hidden"
+                maxlength="120"
+                autocomplete="off"
+                spellcheck="false"
+                aria-label="Anwendungstitel bearbeiten"
+              />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <nav class="tabs" role="tablist">
+        <button type="button" class="tab active" role="tab" aria-selected="true" data-tab="liste" id="tab-btn-liste">
+          Listen
+        </button>
+        <button type="button" class="tab" role="tab" aria-selected="false" data-tab="serienbrief" id="tab-btn-serienbrief">
+          Versand
+        </button>
+      </nav>
+
+      <section id="panel-liste" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-liste">
+        <div class="list-subtabs-bar">
+          <div class="list-tier list-tier--main">
+            <span class="list-tier__label" id="label-tier-main">Hauptlisten</span>
+            <div class="list-tier__tabs-row">
+              <div
+                class="list-subtabs list-subtabs--segmented list-subtabs--saved"
+                role="tablist"
+                aria-labelledby="label-tier-main"
+              >
+                <div id="list-set-buttons" class="list-set-buttons"></div>
+              </div>
+              <button
+                type="button"
+                class="list-set-add-btn"
+                id="btn-list-add"
+                title="Neue Hauptliste anlegen"
+                aria-label="Neue Hauptliste anlegen"
+              >
+                +
+              </button>
+            </div>
+          </div>
+          <div class="list-tier list-tier--sub">
+            <span class="list-tier__label" id="label-tier-sub">Unterlisten</span>
+            <div class="list-tier__tabs-row">
+              <div
+                class="list-subtabs list-subtabs--segmented list-subtabs--saved"
+                role="tablist"
+                aria-labelledby="label-tier-sub"
+                id="list-subtabs-sub-wrap"
+              >
+                <div id="list-subtabs-inner" class="list-subtabs-inner"></div>
+              </div>
+              <button
+                type="button"
+                class="list-set-add-btn"
+                id="btn-sublist-add"
+                title="Neue Zusatz-Unterliste anlegen (wie Hauptliste per Eingabe)"
+                aria-label="Neue Zusatz-Unterliste anlegen"
+              >
+                +
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="liste-toolbar-wrap">
+          <div class="toolbar toolbar--liste">
+            <div class="toolbar-group" role="group" aria-label="Zeilen bearbeiten">
+              <div class="toolbar-group toolbar-group--tight" role="group" aria-label="Rückgängig und Wiederholen">
+                <button
+                  type="button"
+                  class="btn-icon"
+                  id="btn-undo"
+                  title="Letzte Änderung zurücknehmen (Strg+Z außerhalb von Textfeldern)"
+                  disabled
+                >
+                  ↺
+                </button>
+                <button type="button" class="btn-icon" id="btn-redo" title="Wiederholen (Strg+Y oder Umschalt+Strg+Z)" disabled>
+                  ↻
+                </button>
+              </div>
+              <button type="button" class="primary" id="btn-add">Zeile hinzufügen</button>
+              <p><strong> / </strong></p>
+              <span
+                class="kbd-badge"
+                id="kbd-hint"
+                role="img"
+                aria-label="Tastenkürzel: Umschalttaste und Eingabe für neue Zeile"
+                title="In einer Tabellenzelle oder im Filter: Umschalt+Eingabe = neue Zeile"
+                >Neue Zeile = ⇧↵</span
+              >
+            </div>
+            <span class="toolbar-divider" aria-hidden="true"></span>
+            <div class="toolbar-group" role="group" aria-label="Filter">
+              <button type="button" id="btn-clear-filters">Filter entfernen</button>
+            </div>
+            <span class="toolbar-divider" aria-hidden="true"></span>
+            <div class="toolbar-group" role="group" aria-label="Sitzung und Dateien">
+              <button type="button" class="primary" id="btn-export-liste" title="CSV, Excel oder JSON">
+                Liste exportieren
+              </button>
+              <button
+                type="button"
+                class="primary ghost-accent"
+                id="btn-import-daten"
+                title="Gleiches Menü wie beim ersten Start: JSON (Sitzung), Excel/CSV in die aktuelle Liste, oder ohne Datei fortfahren."
+              >
+                Liste importieren
+              </button>
+            </div>
+            <span class="toolbar-divider" aria-hidden="true"></span>
+            <div class="toolbar-group" role="group" aria-label="Liste leeren">
+              <button type="button" class="danger" id="btn-clear">Alles leeren</button>
+            </div>
+          </div>
+        </div>
+        <div id="sheet-extern" class="list-sheet">
+          <div class="table-wrap excel-wrap">
+            <table class="excel-table" id="liste-table">
+              <thead id="liste-thead"></thead>
+              <tbody id="liste-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="sheet-tn" class="list-sheet hidden" role="tabpanel" hidden>
+          <div class="table-wrap excel-wrap excel-wrap-tn">
+            <table class="excel-table tn-table" id="tn-table">
+              <thead id="tn-thead"></thead>
+              <tbody id="tn-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-serienbrief" class="tab-panel hidden" role="tabpanel" aria-labelledby="tab-btn-serienbrief" hidden>
+        <fieldset class="event-box event-box--termin">
+          <legend>Veranstaltungsdaten eingeben</legend>
+          <div class="event-grid">
+            <label>
+              <span>Datum (Anzeige)</span>
+              <input type="text" id="ev-datum" placeholder="z. B. Mittwoch, 08.07.2026" autocomplete="off" />
+            </label>
+            <label>
+              <span>Uhrzeit</span>
+              <input type="text" id="ev-zeit" placeholder="z. B. ab 17:00 Uhr" autocomplete="off" />
+            </label>
+            <label>
+              <span>Ort</span>
+              <input type="text" id="ev-ort" placeholder="z. B. BWK BildungsWerk in Kreuzberg" autocomplete="off" />
+            </label>
+            <label class="full">
+              <span>Terminzeile einheitlich <span class="label-optional">optional</span></span>
+              <input
+                type="text"
+                id="ev-termin-zeile"
+                placeholder="ersetzt Datum · Zeit · Ort im Export"
+                title="Optional: eine Zeile statt der drei Felder darüber"
+                autocomplete="off"
+              />
+            </label>
+            <label>
+              <span>Datum der Erstellung „Berlin, …“</span>
+              <input type="text" id="ev-briefdatum" placeholder="leer = heute (TT.MM.JJJJ)" autocomplete="off" />
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="event-box event-box--export serien-template-fieldset">
+          <legend>Vorbereitung für Export</legend>
+          <div class="event-grid">
+            <label class="full">
+              <span>Dateiname <span class="label-optional">Präfix</span></span>
+              <input
+                type="text"
+                id="serien-export-prefix"
+                placeholder="z. B. Einladung_AVöD_Auftaktveranstaltung"
+                title="Leer = Standard Einladung_AVöD_Auftaktveranstaltung. Vollständiger Stamm: Präfix_JJJJMMTT_Anr._Titel_ggf_Nachname (Datum = Veranstaltung)"
+                autocomplete="off"
+              />
+            </label>
+            <label class="full">
+              <span>E-Mail-Betreff</span>
+              <input
+                type="text"
+                id="serien-mail-subject"
+                placeholder="z. B. Einladung — {Veranstaltung_Ort} oder {Export_Namenszeile_Datei}"
+                title="Platzhalter wie {Veranstaltung_Ort}, {Export_Dateiname} (wie .docx), {Export_Namenszeile_Datei} (nur Anrede_Titel_Nachname)"
+                autocomplete="off"
+              />
+            </label>
+            <label class="full">
+              <span>Absender (E-Mail) <span class="label-optional">optional</span></span>
+              <input
+                type="text"
+                id="serien-mail-from"
+                placeholder="z. B. name@organisation.de"
+                title="Wird als From: in der .eml gesetzt (Pflichtfeld für sichtbaren Absender). Leer = Platzhalter. Apple Mail öffnet .eml oft als gelesene Nachricht; Entwurf eher in Microsoft Outlook."
+                autocomplete="email"
+              />
+            </label>
+            <div class="full serien-export-what control-pill-group" role="radiogroup" aria-label="Was soll exportiert werden">
+              <span class="serien-filter-label">Erstellen</span>
+              <label class="radio-inline"
+                ><input type="radio" name="serien-export-what" value="both" checked /> Word und E-Mail</label
+              >
+              <label class="radio-inline"><input type="radio" name="serien-export-what" value="word" /> Nur Word (.docx)</label>
+              <label class="radio-inline"
+                ><input type="radio" name="serien-export-what" value="email" /> Nur E-Mail (.eml)</label
+              >
+            </div>
+          </div>
+          <div class="serien-template-actions control-actions-row">
+            <input
+              type="file"
+              id="file-template-docx"
+              accept=".dotx,.docx,.doc,.dot,application/vnd.openxmlformats-officedocument.wordprocessingml.template,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
+              hidden
+            />
+            <input
+              type="file"
+              id="file-template-mail"
+              accept=".dotx,.docx,.txt,.html,.htm,.eml,.doc,.dot,application/vnd.openxmlformats-officedocument.wordprocessingml.template,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,text/plain,text/html"
+              hidden
+            />
+            <div class="serien-template-field" id="serien-field-word" role="group" aria-label="Word-Vorlage und gewählte Datei">
+              <button type="button" class="btn-serien-template" id="btn-template-docx" title="Empfohlen: Word-Vorlage (*.dotx); alternativ .docx">
+                <span class="btn-serien-template__ico" aria-hidden="true"
+                  ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" focusable="false"
+                    ><path
+                      fill="#185ABD"
+                      d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 12h8v1.5H8V12zm0 3h8v1.5H8V15zm0 3h5v1.5H8V18z"
+                    /></svg
+                  ></span
+                >
+                Word-Vorlage wählen
+              </button>
+              <span id="label-template-docx" class="template-file-label">—</span>
+            </div>
+            <div class="serien-template-field" id="serien-field-mail" role="group" aria-label="Outlook-Vorlage und gewählte Datei">
+              <button type="button" class="btn-serien-template" id="btn-template-mail" title="Word .docx/.dotx mit Platzhaltern, oder Text/HTML">
+                <span class="btn-serien-template__ico" aria-hidden="true"
+                  ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" focusable="false"
+                    ><path
+                      fill="#0078D4"
+                      d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.89 2 1.99 2H20c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+                    /></svg
+                  ></span
+                >
+                Outlook-Vorlage wählen
+              </button>
+              <span id="label-template-mail" class="template-file-label">—</span>
+            </div>
+            <div class="serien-template-field" role="group" aria-label="Exportordner">
+              <button type="button" class="btn-serien-template" id="btn-export-dir" title="Ordner für Exporte auf diesem Gerät wählen">
+                <span class="btn-serien-template__ico" aria-hidden="true"
+                  ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" focusable="false"
+                    ><path
+                      fill="currentColor"
+                      d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"
+                    /></svg
+                  ></span
+                >
+                Exportpfad wählen
+              </button>
+              <span id="label-export-dir" class="template-file-label">—</span>
+            </div>
+          </div>
+
+          <div class="export-ablauf">
+            <h3 class="export-ablauf__title">Ablauf des Exports</h3>
+            <div class="export-signage" role="note">
+              <div class="export-signage__lane export-signage__lane--fs">
+                <span class="export-signage__badge">Browser</span>
+                <span class="export-signage__text">Exportordner auf Laufwerk wählen oder erstellen</span>
+              </div>
+              <div class="export-signage__lane export-signage__lane--zip">
+                <span class="export-signage__badge">.zip</span>
+                <span class="export-signage__text">bei fehlendem Schreibrecht / Exportordner nicht erstellbar</span>
+              </div>
+              <div class="export-signage__lane export-signage__lane--pdf" role="note">
+                <span class="export-signage__badge">.PDF</span>
+                <span class="export-signage__text">Nach export manuell in PDF konvertieren</span>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="serien-signage" role="region" aria-label="Serienbrief: Status">
+          <div class="signage-legend">
+            <span class="signage-legend__title">Empfänger nach Status</span>
+            <span class="leg-chip leg-chip--einladen" title="Standard-Filter unten">Einladung</span>
+            <span class="leg-chip leg-chip--offen">Offen</span>
+            <span class="leg-chip leg-chip--zusage">Zusage</span>
+            <span class="leg-chip leg-chip--absage">Absage</span>
+          </div>
+        </div>
+
+        <div class="serien-toolbar-wrap">
+          <div class="toolbar serien-toolbar">
+            <div
+              class="toolbar-group toolbar-group--grow serien-filter-radios"
+              id="serien-filter-wrap"
+              role="radiogroup"
+              aria-label="Anzeige nach Status (Standard: Einladung)"
+            >
+              <span class="serien-filter-label">Filter</span>
+              <label class="radio-inline"><input type="radio" name="serien-filter-status" value="einladen" checked /> Nur Einladung</label>
+              <label class="radio-inline"><input type="radio" name="serien-filter-status" value="offen" /> Offen</label>
+              <label class="radio-inline"><input type="radio" name="serien-filter-status" value="zusage" /> Zusage</label>
+              <label class="radio-inline"><input type="radio" name="serien-filter-status" value="absage" /> Absage</label>
+              <label class="radio-inline"><input type="radio" name="serien-filter-status" value="" /> Alle Status</label>
+            </div>
+            <span class="toolbar-divider toolbar-divider--compact" aria-hidden="true"></span>
+            <div class="toolbar-group" role="group" aria-label="Auswahl">
+              <button type="button" class="btn-serien-select btn-serien-select--all" id="btn-select-all-serien">
+                Alle sichtbaren auswählen
+              </button>
+              <button type="button" class="btn-serien-select btn-serien-select--none" id="btn-select-none-serien">
+                Alle abwählen
+              </button>
+            </div>
+            <span class="toolbar-divider toolbar-divider--compact" aria-hidden="true"></span>
+            <div class="toolbar-group" role="group" aria-label="Export">
+              <button type="button" class="primary" id="btn-export-merge">CSV für Seriendruck (Auswahl)</button>
+              <button type="button" class="primary" id="btn-export-serien-files">Auswahl exportieren</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-wrap excel-wrap">
+          <table class="excel-table" id="serien-table">
+            <thead>
+              <tr>
+                <th class="col-check"></th>
+                <th>Lfd</th>
+                <th>Status</th>
+                <th>Name</th>
+                <th>E-Mail</th>
+                <th>Adresse</th>
+              </tr>
+            </thead>
+            <tbody id="serien-tbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <input type="file" id="file-import-json" accept=".json,application/json" hidden />
+      <input
+        type="file"
+        id="file-import-sheet"
+        accept=".csv,.xlsx,.xlsm,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel.sheet.macroEnabled.12"
+        hidden
+      />
+
+      <dialog id="dlg-export-liste" class="modal modal-start" aria-labelledby="dlg-export-liste-title" aria-modal="true">
+        <h2 id="dlg-export-liste-title">Liste exportieren</h2>
+        <p>Aktuelle Unterliste (sichtbare Zeilen, ggf. Filter) bzw. bei JSON die gesamte Sitzung.</p>
+        <div class="modal-actions modal-actions-triple modal-actions-start-tiles">
+          <button type="button" class="modal-start-tile primary" id="dlg-export-liste-csv">
+            <span class="modal-start-tile__glyph" aria-hidden="true">▤</span>
+            <span class="modal-start-tile__title">CSV</span>
+            <span class="modal-start-tile__sub">XLSX-kompatibel</span>
+          </button>
+          <button type="button" class="modal-start-tile primary ghost-accent" id="dlg-export-liste-xlsx">
+            <span class="modal-start-tile__glyph" aria-hidden="true">▦</span>
+            <span class="modal-start-tile__title">Excel (.xlsx)</span>
+            <span class="modal-start-tile__sub">Spalten, Filter, Inhalte</span>
+          </button>
+          <button type="button" class="modal-start-tile primary" id="dlg-export-liste-json">
+            <span class="modal-start-tile__glyph" aria-hidden="true">📄</span>
+            <span class="modal-start-tile__title">JSON</span>
+            <span class="modal-start-tile__sub">Listen und Einstellungen</span>
+          </button>
+        </div>
+        <div class="modal-actions modal-actions-end">
+          <button type="button" id="dlg-export-liste-close">Abbrechen</button>
+        </div>
+      </dialog>
+
+      <dialog id="dlg-import" class="modal modal-start" aria-labelledby="dlg-import-title">
+        <h2 id="dlg-import-title">Liste importieren</h2>
+        <div class="modal-actions modal-actions-triple modal-actions-start-tiles">
+          <button type="button" class="modal-start-tile primary" id="dlg-import-json">
+            <span class="modal-start-tile__glyph" aria-hidden="true">📄</span>
+            <span class="modal-start-tile__title">JSON</span>
+            <span class="modal-start-tile__sub">gesicherte Sitzung (Vorlage)</span>
+          </button>
+          <button type="button" class="modal-start-tile primary ghost-accent" id="dlg-import-extern">
+            <span class="modal-start-tile__glyph" aria-hidden="true">▦</span>
+            <span class="modal-start-tile__title">Excel / CSV</span>
+            <span class="modal-start-tile__sub">externe Liste</span>
+          </button>
+          <button type="button" class="modal-start-tile modal-start-tile--plain" id="dlg-import-skip">
+            <span class="modal-start-tile__glyph" aria-hidden="true">○</span>
+            <span class="modal-start-tile__title">Leer</span>
+            <span class="modal-start-tile__sub">ohne Import starten</span>
+          </button>
+        </div>
+      </dialog>
+
+      <dialog id="dlg-pdf-word-hinweis" class="modal" aria-labelledby="dlg-pdf-word-hinweis-title" aria-modal="true">
+        <h2 id="dlg-pdf-word-hinweis-title">PDF</h2>
+        <p>Nach export manuell in PDF konvertieren</p>
+        <div class="modal-actions modal-actions-end">
+          <button type="button" class="primary" id="dlg-pdf-word-hinweis-ok">OK</button>
+        </div>
+      </dialog>
+
+      <dialog id="dlg-export-progress" class="modal export-progress-dialog" aria-labelledby="export-progress-title">
+        <h2 id="export-progress-title">Export läuft</h2>
+        <p id="export-progress-text">Bitte warten…</p>
+        <progress id="export-progress-bar" max="100" value="0"></progress>
+      </dialog>
+
+      <footer class="footer-note">
+        <p>
+        </p>
+      </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/pizzip@3.1.7/dist/pizzip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docxtemplater@3.49.2/build/docxtemplater.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

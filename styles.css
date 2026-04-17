@@ -1,0 +1,3367 @@
+/* Kühles, klares UI (Slate / Weiß) – kein Beige */
+
+:root {
+  --bg: #f1f5f9;
+  --bg-elevated: #ffffff;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --border-soft: rgba(15, 23, 42, 0.08);
+  --accent: #0d9488;
+  --accent-hover: #0f766e;
+  --accent-soft: rgba(13, 148, 136, 0.12);
+  --einladen: #f8fafc;
+  --offen: #f8fafc;
+  --absage: #fafafa;
+  --zusage: #f8fafc;
+  --einladen-strong: #e2e8f0;
+  --offen-strong: #e2e8f0;
+  --absage-strong: #e2e8f0;
+  --zusage-strong: #e2e8f0;
+  --radius: 14px;
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 12px 40px rgba(15, 23, 42, 0.08);
+  --font: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  /* Liste: Spalte 1 = 0 (Fähnchen per CSS, kein Layout); Nr. schmal; Offsets ohne Icon-Breite */
+  --liste-w-icon: 0px;
+  --liste-w-lfd: 2.125rem;
+  --status-flag-size: 1.15rem;
+  --status-btn-radius: 5px;
+  --status-segment-gap: 3px;
+  --status-flag-bg: #f8fafc;
+  --status-flag-border: #e2e8f0;
+  --status-flag-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --status-flag-einladen: #ca8a04;
+  --status-flag-offen: #0284c7;
+  --status-flag-absage: #be123c;
+  --status-flag-zusage: #059669;
+  --liste-w-status: 20rem;
+  --liste-w-firma: 11rem;
+  --liste-w-anrede: 4.5rem;
+  --liste-w-titel: 5rem;
+  --liste-w-vorname: 6rem;
+  --liste-w-nachname: 7rem;
+  --liste-left-1: 0px;
+  --liste-left-2: var(--liste-w-icon);
+  --liste-left-3: calc(var(--liste-w-icon) + var(--liste-w-lfd));
+  --liste-left-4: calc(var(--liste-w-icon) + var(--liste-w-lfd) + var(--liste-w-status));
+  --liste-left-5: calc(
+    var(--liste-w-icon) + var(--liste-w-lfd) + var(--liste-w-status) + var(--liste-w-firma)
+  );
+  --liste-left-6: calc(
+    var(--liste-w-icon) + var(--liste-w-lfd) + var(--liste-w-status) + var(--liste-w-firma) + var(--liste-w-anrede)
+  );
+  --liste-left-7: calc(
+    var(--liste-w-icon) + var(--liste-w-lfd) + var(--liste-w-status) + var(--liste-w-firma) + var(--liste-w-anrede) +
+      var(--liste-w-titel)
+  );
+  --liste-left-8: calc(
+    var(--liste-w-icon) + var(--liste-w-lfd) + var(--liste-w-status) + var(--liste-w-firma) + var(--liste-w-anrede) +
+      var(--liste-w-titel) + var(--liste-w-vorname)
+  );
+  /* Einheitliche Bedienelemente außerhalb der Tabellen */
+  --control-radius: 10px;
+  --control-radius-sm: 8px;
+  --control-radius-lg: 12px;
+  --control-pad-y: 0.5rem;
+  --control-pad-x: 0.875rem;
+  --control-min-h: 2.625rem;
+  --control-gap: 0.5rem;
+  --control-gap-lg: 0.75rem;
+  --toolbar-pad: 0.65rem 0.85rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  background-image: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 55%, #e8eef4 100%);
+}
+
+.wrap {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding: 1.5rem clamp(0.75rem, 2vw, 1.5rem) 3rem;
+  box-sizing: border-box;
+}
+
+.brand-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem 1.1rem;
+}
+
+.app-logo {
+  height: 36px;
+  width: auto;
+  max-width: 120px;
+  object-fit: contain;
+  object-position: left center;
+  flex-shrink: 0;
+  display: block;
+}
+
+.brand-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.brand-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.45rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.page-header .brand-title-row h1 {
+  margin: 0;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.app-title-editable {
+  flex: 1 1 auto;
+  min-width: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.app-title-editable:focus-visible {
+  border-radius: 4px;
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+
+.app-title-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  font: inherit;
+  font-family: system-ui, -apple-system, "Segoe UI", "Source Sans 3", sans-serif;
+  font-size: 1.3rem;
+  font-weight: 400;
+  letter-spacing: 0.055em;
+  line-height: 1.25;
+  color: var(--text);
+  margin: 0;
+  padding: 0 0 0.1rem;
+  border: none;
+  border-bottom: 1px dashed rgba(148, 163, 184, 0.55);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.app-title-input:focus {
+  outline: none;
+  border-bottom-color: var(--accent);
+  border-bottom-style: solid;
+}
+
+.page-header {
+  margin-bottom: 0.25rem;
+}
+
+.page-header h1 {
+  font-family: system-ui, -apple-system, "Segoe UI", "Source Sans 3", sans-serif;
+  font-size: 1.3rem;
+  font-weight: 400;
+  letter-spacing: 0.055em;
+  margin: 0 0 0.5rem;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.lead {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  max-width: 36em;
+}
+
+/* Toolbars: eine Zeile, klare Gruppen, gleiche Höhe wie Buttons */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--control-gap) var(--control-gap-lg);
+  margin: 1.1rem 0 1.25rem;
+  padding: var(--toolbar-pad);
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(12px);
+}
+
+.toolbar-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--control-gap);
+}
+
+.toolbar-group--tight {
+  gap: 0.35rem;
+}
+
+.toolbar-group--grow {
+  flex: 1 1 14rem;
+  min-width: 0;
+}
+
+.toolbar-divider {
+  width: 1px;
+  align-self: stretch;
+  min-height: 2rem;
+  margin: 0.1rem 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(148, 163, 184, 0.5) 35%, rgba(148, 163, 184, 0.5) 65%, transparent 100%);
+  flex-shrink: 0;
+}
+
+.toolbar-divider--compact {
+  min-height: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .toolbar-divider {
+    width: 100%;
+    height: 1px;
+    min-height: 0;
+    margin: 0.15rem 0;
+    background: rgba(226, 232, 240, 0.95);
+  }
+}
+
+.kbd-hint {
+  font-size: 0.78rem;
+  color: var(--muted);
+  opacity: 0.95;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  background: rgba(13, 148, 136, 0.07);
+  border: 1px solid rgba(13, 148, 136, 0.18);
+  white-space: nowrap;
+}
+
+/* Kompaktes Tastatur-Badge (Digital-Signage-Stil) */
+.kbd-badge {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #0f766e;
+  padding: 0.28rem 0.55rem;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #ecfdf5 0%, #d1fae5 100%);
+  border: 1px solid rgba(13, 148, 136, 0.35);
+  box-shadow: 0 1px 2px rgba(13, 148, 136, 0.12);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  padding: var(--control-pad-y) var(--control-pad-x);
+  min-height: var(--control-min-h);
+  border-radius: var(--control-radius);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  transition: background 0.18s, border-color 0.18s, box-shadow 0.18s, transform 0.1s, color 0.15s;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+
+button:hover:not(:disabled) {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.07);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0.5px);
+}
+
+button:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+button.primary {
+  background: linear-gradient(180deg, #14b8a6 0%, var(--accent) 100%);
+  color: #fff;
+  border-color: #0c7569;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.32);
+}
+
+button.primary:hover:not(:disabled) {
+  background: linear-gradient(180deg, #2dd4bf 0%, var(--accent-hover) 100%);
+  border-color: #0f766e;
+  filter: none;
+}
+
+button.primary:focus-visible {
+  outline-color: #0d9488;
+  outline-offset: 2px;
+}
+
+button.danger {
+  color: #b91c1c;
+  border-color: #fecaca;
+  background: #fff;
+  font-weight: 500;
+}
+
+button.danger:hover:not(:disabled) {
+  background: #fef2f2;
+  border-color: #f87171;
+  color: #991b1b;
+}
+
+button.btn-icon {
+  min-width: var(--control-min-h);
+  padding-left: 0.45rem;
+  padding-right: 0.45rem;
+  font-size: 1.1rem;
+  line-height: 1;
+  font-weight: 600;
+}
+
+.liste-toolbar-wrap {
+  margin: 1.1rem 0 1.25rem;
+}
+
+.toolbar.toolbar--liste {
+  margin: 0;
+}
+
+.serien-toolbar-wrap {
+  margin-bottom: 0.85rem;
+  margin-top: 0.35rem;
+}
+
+.serien-toolbar.toolbar {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+/* Kurzzeit-Meldungen (Aktionen) oben rechts */
+.app-toast {
+  position: fixed;
+  top: max(0.65rem, env(safe-area-inset-top));
+  right: max(0.65rem, env(safe-area-inset-right));
+  z-index: 3000;
+  max-width: min(22rem, calc(100vw - 2rem));
+  padding: 0.5rem 0.85rem;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.35rem);
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease,
+    visibility 0.28s;
+  pointer-events: none;
+}
+
+.app-toast.app-toast--visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.app-toast.app-toast--serien {
+  background: linear-gradient(180deg, rgba(240, 253, 250, 0.72) 0%, rgba(255, 255, 255, 0.95) 100%);
+  border-color: rgba(13, 148, 136, 0.22);
+}
+
+.app-toast__text {
+  display: block;
+  min-height: 1.2em;
+}
+
+/* Karten */
+.entries {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.entry-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem 1.15rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.entry-card[data-status="einladen"] {
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: inset 3px 0 0 0 var(--status-flag-einladen), 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+.entry-card[data-status="offen"] {
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: inset 3px 0 0 0 var(--status-flag-offen), 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+.entry-card[data-status="absage"] {
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: inset 3px 0 0 0 var(--status-flag-absage), 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+.entry-card[data-status="zusage"] {
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: inset 3px 0 0 0 var(--status-flag-zusage), 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.card-lfd {
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.card-lfd strong {
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.btn-icon {
+  font-size: 0.8rem;
+  padding: 0.3rem 0.55rem;
+}
+
+fieldset {
+  margin: 0 0 1rem;
+  padding: 0;
+  border: none;
+}
+
+fieldset legend,
+.card-address > legend {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin-bottom: 0.45rem;
+  padding: 0;
+}
+
+.card-status legend {
+  margin-bottom: 0.5rem;
+}
+
+.radio-row .radio-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.radio-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.65);
+  cursor: pointer;
+  font-size: 0.88rem;
+}
+
+.radio-pill:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.radio-pill input {
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem 0.85rem;
+}
+
+.field-grid .full {
+  grid-column: 1 / -1;
+}
+
+.address-grid {
+  grid-template-columns: 1fr 5rem 5.5rem 1fr;
+}
+
+@media (max-width: 640px) {
+  .brand-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .app-logo {
+    max-width: 100px;
+    height: 32px;
+  }
+
+  .field-grid,
+  .address-grid {
+    grid-template-columns: 1fr;
+  }
+  .field.narrow {
+    max-width: none;
+  }
+}
+
+label.field,
+label.field.full {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+label.field span {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  width: 100%;
+  font: inherit;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+}
+
+input:focus,
+textarea:focus {
+  outline: 2px solid var(--accent-soft);
+  outline-offset: 0;
+  border-color: var(--accent);
+}
+
+textarea {
+  min-height: 4rem;
+  resize: vertical;
+}
+
+.card-address {
+  margin: 0.5rem 0 1rem;
+}
+
+.plz-hint {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin: 0.35rem 0 0;
+}
+
+.footer-note {
+  margin-top: 2.25rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.45;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.65);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.footer-note a {
+  color: var(--accent);
+}
+
+/* Dialog */
+dialog.modal {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.35rem 1.45rem;
+  max-width: 420px;
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-md);
+  font-family: var(--font);
+}
+
+dialog.modal.modal-start {
+  max-width: min(36rem, calc(100vw - 2rem));
+}
+
+dialog.modal::backdrop {
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(3px);
+}
+
+dialog.modal h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+}
+
+dialog.modal h2 + .modal-actions {
+  margin-top: 0.25rem;
+}
+
+dialog.modal p {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+dialog.modal p.modal-hint {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.45;
+  margin-top: -0.35rem;
+}
+
+.dlg-sublist-lead {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.dlg-sublist-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-bottom: 1rem;
+}
+
+.dlg-sublist-actions .primary {
+  width: 100%;
+  justify-content: center;
+}
+
+.modal-actions-end {
+  justify-content: flex-end;
+}
+
+/* Start-Dialog: große Kacheln statt Absatztext */
+.modal-actions-start-tiles {
+  gap: 0.55rem;
+}
+
+.modal-start-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  min-height: 5.75rem;
+  padding: 0.75rem 0.6rem !important;
+  border-radius: var(--control-radius-lg) !important;
+  text-align: center;
+  line-height: 1.25;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.07) !important;
+}
+
+.modal-start-tile__glyph {
+  font-size: 1.45rem;
+  line-height: 1;
+  filter: saturate(1.1);
+}
+
+.modal-start-tile__title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.modal-start-tile__sub {
+  font-size: 0.78rem;
+  font-weight: 500;
+  opacity: 0.88;
+}
+
+.modal-start-tile.primary .modal-start-tile__sub {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.modal-start-tile.primary.ghost-accent .modal-start-tile__sub {
+  color: rgba(13, 148, 136, 0.9);
+}
+
+.modal-start-tile--plain {
+  background: #f8fafc !important;
+  color: #475569 !important;
+  border: 1px dashed #94a3b8 !important;
+  box-shadow: none !important;
+}
+
+.modal-start-tile--plain .modal-start-tile__sub {
+  color: #64748b;
+}
+
+@media (min-width: 520px) {
+  .modal-actions-start-tiles.modal-actions-triple {
+    align-items: stretch;
+  }
+
+  .modal-actions-start-tiles.modal-actions-triple .modal-start-tile {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}
+
+.export-progress-dialog {
+  max-width: min(28rem, calc(100vw - 2rem));
+}
+
+.export-progress-dialog progress {
+  display: block;
+  width: 100%;
+  min-width: 14rem;
+  height: 0.55rem;
+  margin-top: 0.25rem;
+  accent-color: var(--accent);
+}
+
+.modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.modal-actions-triple {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.55rem;
+}
+
+@media (min-width: 520px) {
+  .modal-actions-triple {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 0.45rem;
+  }
+
+  .modal-actions-triple button {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}
+
+button.primary.ghost-accent {
+  background: var(--surface);
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  box-shadow: none;
+}
+
+button.primary.ghost-accent:hover {
+  background: var(--accent-soft);
+}
+
+button.primary.ghost-accent:focus-visible {
+  outline-color: var(--accent);
+}
+
+/* Tabs (gleiche Anmutung wie Steuer-Buttons) */
+.tabs {
+  display: flex;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+  padding: 0.25rem;
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: var(--control-radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.tab {
+  font: inherit;
+  padding: 0.5rem 1.1rem;
+  min-height: var(--control-min-h);
+  border: 1px solid transparent;
+  border-radius: var(--control-radius);
+  background: transparent;
+  color: var(--muted);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.tab:hover {
+  color: var(--text);
+  background: rgba(248, 250, 252, 0.98);
+}
+
+.tab.active {
+  color: #0f766e;
+  font-weight: 700;
+  background: linear-gradient(180deg, #ecfdf5 0%, #ffffff 100%);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(13, 148, 136, 0.28);
+}
+
+.tab:focus {
+  outline: none;
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.tab-panel.hidden {
+  display: none !important;
+}
+
+/* Liste: zwei Zeilen, gleiche Label-Spalte + Inhalt (Raster) */
+.list-subtabs-bar {
+  margin-bottom: 1.2rem;
+  padding: 0.75rem 1rem 0.85rem;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.88) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--control-radius-lg);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.list-tier--main,
+.list-tier--sub {
+  display: grid;
+  grid-template-columns: 7.25rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.5rem 0.85rem;
+  width: 100%;
+}
+
+.list-tier--main {
+  padding-bottom: 0.6rem;
+  margin-bottom: 0.15rem;
+  border-bottom: 1px solid rgba(203, 213, 225, 0.65);
+}
+
+.list-tier__label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  justify-self: start;
+  align-self: center;
+  line-height: 1.35;
+}
+
+/* Eine Zeile: graues Tab-Segment (wächst) + Plus-Button rechts außerhalb des Rahmens */
+.list-tier__tabs-row {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 0.5rem;
+  min-width: 0;
+  width: 100%;
+}
+
+.list-tier__tabs-row > .list-subtabs {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.list-tier__tabs-row > .list-set-add-btn {
+  flex: 0 0 2.4rem;
+  align-self: stretch;
+}
+
+@media (max-width: 420px) {
+  .list-tier__tabs-row {
+    flex-wrap: wrap;
+  }
+  .list-tier__tabs-row > .list-set-add-btn {
+    margin-left: auto;
+  }
+}
+
+.list-tier--sub .list-subtabs {
+  min-width: 0;
+}
+
+.list-subtabs--segmented.list-subtabs--saved {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.list-set-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  min-width: 0;
+  flex: 0 1 auto;
+}
+
+.list-subtabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.list-subtabs--segmented {
+  padding: 0.2rem;
+  border-radius: var(--control-radius-lg);
+  background: rgba(241, 245, 249, 0.85);
+  border: 1px solid rgba(203, 213, 225, 0.65);
+}
+
+.list-subtab {
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.15rem;
+  text-align: left;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem 0.55rem;
+  min-height: var(--control-min-h);
+  min-width: 11rem;
+  border: 1px solid transparent;
+  border-radius: var(--control-radius);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.list-subtab__title {
+  line-height: 1.2;
+}
+
+.list-subtab__sub {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--muted);
+  opacity: 0.92;
+  line-height: 1.25;
+}
+
+.list-subtab:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(148, 163, 184, 0.45);
+}
+
+.list-subtab--extern.active {
+  color: #0c4a6e;
+  background: linear-gradient(180deg, #e0f2fe 0%, #ffffff 100%);
+  border-color: #38bdf8;
+  box-shadow: 0 2px 8px rgba(14, 116, 144, 0.14);
+}
+
+.list-subtab--extern.active .list-subtab__sub {
+  color: #0369a1;
+}
+
+.list-subtab--tn.active {
+  color: #14532d;
+  background: linear-gradient(180deg, #dcfce7 0%, #ffffff 100%);
+  border-color: #4ade80;
+  box-shadow: 0 2px 8px rgba(22, 101, 52, 0.12);
+}
+
+.list-subtab--tn.active .list-subtab__sub {
+  color: #166534;
+}
+
+.list-subtab--extra:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(148, 163, 184, 0.45);
+}
+
+.list-subtab--extra.active {
+  color: #5b21b6;
+  background: linear-gradient(180deg, #ede9fe 0%, #ffffff 100%);
+  border-color: #a78bfa;
+  box-shadow: 0 2px 8px rgba(91, 33, 182, 0.12);
+}
+
+.list-subtab--extra.active .list-subtab__sub {
+  color: #6d28d9;
+}
+
+/* Ein Rahmen um die ganze Zeile (Tab + ×); der Tab-Button selbst nicht nochmal extra einfärben */
+.list-subtab-wrap.active .list-subtab--extern.active,
+.list-subtab-wrap.active .list-subtab--tn.active,
+.list-subtab-wrap.active .list-subtab--extra.active {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.list-subtab:focus {
+  outline: none;
+}
+
+.list-subtab:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Unterlisten: Kachel + × (analog Hauptlisten), dynamisch per JS */
+.list-subtabs-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.list-subtab-wrap {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: stretch;
+  vertical-align: top;
+  border-radius: var(--control-radius);
+  border: 1px solid transparent;
+  background: transparent;
+  min-height: var(--control-min-h);
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, color 0.2s;
+  color: var(--muted);
+  align-self: stretch;
+}
+
+.list-subtab-wrap:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(148, 163, 184, 0.45);
+  color: var(--text);
+}
+
+.list-subtab-wrap.active {
+  background: #ffffff;
+  border-color: var(--border);
+  box-shadow: var(--shadow-sm), inset 0 -2px 0 0 var(--accent);
+}
+
+.list-subtab-wrap.active:has(.list-subtab--extra.active) {
+  box-shadow: var(--shadow-sm), inset 0 -2px 0 0 #a78bfa;
+}
+
+.list-subtab-wrap .list-subtab {
+  flex: 1 1 auto;
+  min-width: 10rem;
+  max-width: 18rem;
+  margin: 0;
+  padding: 0.5rem 0.85rem 0.55rem 0.95rem;
+  border: none;
+  border-radius: var(--control-radius) 0 0 var(--control-radius);
+  box-shadow: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 0;
+}
+
+.list-subtab-wrap:not(.has-remove) .list-subtab {
+  border-radius: var(--control-radius);
+  max-width: none;
+}
+
+.list-subtab-remove {
+  flex: 0 0 1.45rem;
+  width: 1.45rem;
+  min-width: 1.45rem;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0 var(--control-radius-sm) var(--control-radius-sm) 0;
+  /* Nur Trennlinie zum Tab; äußerer Rahmen kommt von .list-subtab-wrap */
+  border-left: 1px solid rgba(148, 163, 184, 0.28);
+  background: transparent;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.28;
+  transition: opacity 0.15s ease, color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.list-subtab-wrap:hover .list-subtab-remove,
+.list-subtab-remove:focus-visible {
+  opacity: 1;
+}
+
+.list-subtab-wrap.active .list-subtab--extern ~ .list-subtab-remove {
+  border-left-color: rgba(148, 163, 184, 0.4);
+  color: #0369a1;
+}
+
+.list-subtab-wrap.active .list-subtab--tn ~ .list-subtab-remove {
+  border-left-color: rgba(148, 163, 184, 0.4);
+  color: #166534;
+}
+
+.list-subtab-wrap.active .list-subtab--extra ~ .list-subtab-remove {
+  border-left-color: rgba(148, 163, 184, 0.4);
+  color: #6d28d9;
+}
+
+.list-subtab-remove:hover {
+  color: #b91c1c !important;
+  background: rgba(254, 242, 242, 0.98) !important;
+  border-left-color: rgba(239, 68, 68, 0.4) !important;
+}
+
+.list-subtab-remove:focus {
+  outline: none;
+}
+
+.list-subtab-remove:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .list-subtab-remove {
+    opacity: 0.45;
+  }
+
+  .list-subtab-remove:active {
+    opacity: 1;
+  }
+}
+
+.list-sublist-restore {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+  align-self: center;
+  flex: 0 0 auto;
+}
+
+.list-sublist-restore-btn {
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 0.4rem 0.65rem;
+  line-height: 1.2;
+  border-radius: var(--control-radius-sm);
+  border: 1px dashed rgba(100, 116, 139, 0.65);
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.list-sublist-restore-btn:hover {
+  border-color: rgba(13, 148, 136, 0.55);
+  background: rgba(236, 253, 245, 0.95);
+  color: #0f766e;
+}
+
+.list-sublist-restore-btn:focus {
+  outline: none;
+}
+
+.list-sublist-restore-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Hauptlisten-Kachel: feste Zeile (Titel + Zeile 2), × rechts in eigener Spalte — kein Überlagern */
+.list-set-tab-wrap {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: stretch;
+  vertical-align: top;
+  border-radius: var(--control-radius);
+  border: 1px solid transparent;
+  background: transparent;
+  min-height: var(--control-min-h);
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, color 0.2s;
+  color: var(--muted);
+  align-self: stretch;
+}
+
+.list-set-tab-wrap:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(148, 163, 184, 0.45);
+  color: var(--text);
+}
+
+.list-set-tab-wrap.active {
+  color: #4c1d95;
+  border-color: #a78bfa;
+  background: linear-gradient(180deg, #ede9fe 0%, #ffffff 100%);
+  box-shadow: 0 2px 8px rgba(91, 33, 182, 0.12);
+}
+
+.list-set-tab-wrap.active .list-set-tab {
+  font-weight: 600;
+}
+
+.list-set-tab-wrap.active .list-set-tab__body .list-subtab__sub {
+  color: #6d28d9;
+  opacity: 1;
+}
+
+.list-set-tab-wrap .list-set-tab {
+  flex: 1 1 auto;
+  min-width: 6.5rem;
+  max-width: 13rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--control-radius) 0 0 var(--control-radius);
+  box-shadow: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  align-items: stretch;
+  justify-content: flex-start;
+  min-height: 0;
+}
+
+.list-set-tab-wrap:not(.has-remove) .list-set-tab {
+  border-radius: var(--control-radius);
+}
+
+.list-set-tab-wrap .list-set-tab:hover {
+  background: transparent;
+  border-color: transparent;
+}
+
+.list-set-tab__body {
+  padding: 0.5rem 0.75rem 0.55rem 0.95rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.15rem;
+  min-height: calc(var(--control-min-h) - 2px);
+  box-sizing: border-box;
+  width: 100%;
+  text-align: left;
+}
+
+.list-set-tab__title {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  line-height: 1.2;
+}
+
+.list-set-tab-wrap .list-subtab__sub {
+  font-size: 0.75rem;
+  letter-spacing: 0.01em;
+  opacity: 0.88;
+  line-height: 1.25;
+}
+
+.list-set-tab-remove {
+  flex: 0 0 1.6rem;
+  width: 1.6rem;
+  min-width: 1.6rem;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0 var(--control-radius) var(--control-radius) 0;
+  border-left: 1px solid rgba(148, 163, 184, 0.4);
+  background: transparent;
+  color: #64748b;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.list-set-tab-wrap:hover .list-set-tab-remove,
+.list-set-tab-remove:focus-visible {
+  opacity: 1;
+}
+
+.list-set-tab-wrap.active .list-set-tab-remove {
+  border-left-color: rgba(167, 139, 250, 0.55);
+  color: #6d28d9;
+}
+
+.list-set-tab-remove:hover {
+  color: #b91c1c !important;
+  background: rgba(254, 242, 242, 0.98);
+}
+
+.list-set-tab-remove:focus {
+  outline: none;
+}
+
+.list-set-tab-remove:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .list-set-tab-remove {
+    opacity: 0.5;
+  }
+
+  .list-set-tab-remove:active {
+    opacity: 1;
+  }
+}
+
+/* Neues Hauptlisten-Plus: gleiche Zeilenhöhe wie Kacheln, grün bei Hover */
+.list-set-add-btn {
+  flex: 0 0 2.5rem;
+  align-self: stretch;
+  width: 2.5rem;
+  min-width: 2.5rem;
+  min-height: var(--control-min-h);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1;
+  color: #94a3b8;
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  border-radius: var(--control-radius);
+  background: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.list-set-add-btn:hover {
+  color: #0f766e;
+  border-color: rgba(16, 185, 129, 0.55);
+  background: linear-gradient(180deg, #ecfdf5 0%, #d1fae5 100%);
+  box-shadow:
+    0 0 0 1px rgba(16, 185, 129, 0.35),
+    0 0 14px rgba(34, 197, 94, 0.5),
+    0 0 28px rgba(34, 197, 94, 0.22);
+}
+
+.list-set-add-btn:focus {
+  outline: none;
+}
+
+.list-set-add-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 560px) {
+  .list-tier--main,
+  .list-tier--sub {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
+  .list-tier__label {
+    align-self: start;
+  }
+}
+
+.list-sheet.hidden {
+  display: none !important;
+}
+
+.excel-wrap-tn {
+  overflow-x: auto;
+}
+
+/* TN: weniger Spalten → Tabelle nicht über volle Breite streichen */
+#sheet-tn .table-wrap.excel-wrap {
+  max-width: 46rem;
+}
+
+.tn-table {
+  min-width: 0;
+}
+
+/* TN: gleiche Logik wie Liste – keine Layout-Breite für „Symbol“, schmale Lfd */
+#tn-table.excel-table thead th:nth-child(1) {
+  width: 0;
+  min-width: 0;
+  max-width: 0;
+  padding: 0;
+  border-left: none;
+  border-right: none;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+#tn-table.excel-table tbody td:nth-child(1) {
+  width: 0;
+  min-width: 0;
+  max-width: 0;
+  padding: 0;
+  border: none;
+  overflow: visible;
+  box-sizing: border-box;
+  vertical-align: middle;
+}
+
+#tn-table.excel-table thead th:nth-child(2),
+#tn-table.excel-table tbody td:nth-child(2) {
+  width: var(--liste-w-lfd);
+  min-width: var(--liste-w-lfd);
+  max-width: var(--liste-w-lfd);
+  box-sizing: border-box;
+  border-left: 1px solid #94a3b8;
+  border-right: 1px solid #94a3b8;
+}
+
+/* TN: schmalere Spalten als bei der großen Extern-Liste */
+#tn-table.excel-table thead th:nth-child(3),
+#tn-table.excel-table tbody td:nth-child(3) {
+  width: 14rem;
+  min-width: 14rem;
+  max-width: 14rem;
+}
+
+#tn-table.excel-table thead th:nth-child(4),
+#tn-table.excel-table tbody td:nth-child(4) {
+  width: 4rem;
+  min-width: 4rem;
+  max-width: 4rem;
+}
+
+#tn-table.excel-table thead th:nth-child(5),
+#tn-table.excel-table tbody td:nth-child(5) {
+  width: 5.5rem;
+  min-width: 5.5rem;
+  max-width: 5.5rem;
+}
+
+#tn-table.excel-table thead th:nth-child(6),
+#tn-table.excel-table tbody td:nth-child(6) {
+  width: 6rem;
+  min-width: 6rem;
+  max-width: 6rem;
+}
+
+#tn-table.excel-table thead th:nth-child(7),
+#tn-table.excel-table tbody td:nth-child(7) {
+  width: 2.25rem;
+  min-width: 2.25rem;
+  max-width: 2.25rem;
+}
+
+/* Serienbrief: Farblegende statt Fließtext */
+.serien-signage {
+  margin-bottom: 1rem;
+  padding: 0.65rem 0.85rem 0.7rem;
+  border-radius: var(--radius);
+  border: 1px solid rgba(13, 148, 136, 0.22);
+  background: linear-gradient(90deg, rgba(13, 148, 136, 0.08) 0%, rgba(255, 255, 255, 0.92) 38%, #ffffff 100%);
+  box-shadow: var(--shadow-sm);
+}
+
+.signage-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.55rem;
+}
+
+.signage-legend__title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #0f766e;
+  margin-right: 0.25rem;
+}
+
+.leg-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.22rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.leg-chip--einladen {
+  color: #92400e;
+  background: #fffbeb;
+  border-color: rgba(217, 119, 6, 0.35);
+}
+
+.leg-chip--offen {
+  color: #075985;
+  background: #e0f2fe;
+  border-color: rgba(14, 165, 233, 0.35);
+}
+
+.leg-chip--zusage {
+  color: #14532d;
+  background: #dcfce7;
+  border-color: rgba(22, 163, 74, 0.35);
+}
+
+.leg-chip--absage {
+  color: #9f1239;
+  background: #ffe4e6;
+  border-color: rgba(225, 29, 72, 0.35);
+}
+
+.label-optional {
+  display: inline-block;
+  margin-left: 0.2rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #94a3b8;
+  vertical-align: middle;
+}
+
+.event-box {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.85rem 1rem 1rem;
+  margin-bottom: 1rem;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.event-box--termin {
+  border-left: 4px solid #0d9488;
+  background: linear-gradient(90deg, rgba(13, 148, 136, 0.06) 0%, #ffffff 12rem);
+}
+
+.event-box--export {
+  border-left: 4px solid #0284c7;
+  background: linear-gradient(90deg, rgba(2, 132, 199, 0.07) 0%, #ffffff 14rem);
+}
+
+.event-box legend {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0 0.35rem;
+}
+
+.event-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.65rem;
+}
+
+.event-grid .full {
+  grid-column: 1 / -1;
+}
+
+.event-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.event-grid input {
+  font: inherit;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.serien-toolbar.toolbar {
+  border-color: rgba(13, 148, 136, 0.22);
+  background: linear-gradient(180deg, rgba(240, 253, 250, 0.88) 0%, rgba(255, 255, 255, 0.82) 100%);
+}
+
+/* Vorlagen: Aktionszeilen wie Toolbar-Buttons */
+.control-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--control-gap) var(--control-gap-lg);
+}
+
+.serien-template-actions.control-actions-row {
+  margin-top: 0.55rem;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 0.5rem 0.65rem;
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.15rem;
+}
+
+.serien-template-actions .btn-serien-template {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.serien-template-actions .btn-serien-template__ico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.serien-template-actions .btn-serien-template__ico svg {
+  display: block;
+}
+
+/* Button + Dateiname/Ordner als eine Einheit — eine Zeile; drei Felder nebeneinander */
+.serien-template-field {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex: 1 1 0;
+  min-width: 0;
+  gap: 0.5rem 0.65rem;
+  padding: 0.4rem 0.65rem;
+  border-radius: 10px;
+  border: 1px solid rgba(13, 148, 136, 0.22);
+  background: linear-gradient(180deg, rgba(240, 253, 250, 0.5) 0%, rgba(255, 255, 255, 0.95) 100%);
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.serien-template-field .btn-serien-template {
+  flex-shrink: 0;
+}
+
+.serien-template-field .template-file-label {
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 0;
+  padding: 0.22rem 0.5rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  color: #475569;
+  font-weight: 500;
+}
+
+.serien-template-field.serien-template-field--inactive {
+  opacity: 0.52;
+  filter: grayscale(0.35);
+  user-select: none;
+  border-color: rgba(148, 163, 184, 0.45);
+  background: linear-gradient(180deg, rgba(241, 245, 249, 0.55) 0%, rgba(248, 250, 252, 0.92) 100%);
+}
+
+.serien-template-field.serien-template-field--inactive .template-file-label {
+  color: #94a3b8;
+  background: rgba(248, 250, 252, 0.85);
+}
+
+.serien-template-field.serien-template-field--inactive .btn-serien-template:disabled {
+  cursor: not-allowed;
+}
+
+/* Ablauf-Hinweise unter den Vorlagen */
+.export-ablauf {
+  margin-top: 0.85rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(13, 148, 136, 0.18);
+}
+
+.export-ablauf__title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #0f766e;
+  margin: 0 0 0.55rem;
+}
+
+.export-ablauf .export-signage {
+  margin: 0;
+}
+
+@media (max-width: 56rem) {
+  .serien-template-actions.control-actions-row {
+    flex-wrap: wrap;
+  }
+
+  .serien-template-actions.control-actions-row .serien-template-field {
+    flex: 1 1 100%;
+  }
+}
+
+.control-pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--control-gap) var(--control-gap-lg);
+  padding: 0.45rem 0.65rem;
+  background: rgba(248, 250, 252, 0.95);
+  border: 1px solid var(--border);
+  border-radius: var(--control-radius-lg);
+}
+
+.event-grid .full.control-pill-group {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.serien-template-fieldset .serien-template-hint {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.45;
+  margin: 0 0 0.75rem;
+}
+
+.serien-template-fieldset code {
+  font-size: 0.82em;
+  background: rgba(15, 23, 42, 0.06);
+  padding: 0.08em 0.35em;
+  border-radius: 4px;
+}
+
+.template-file-label {
+  font-size: 0.82rem;
+  color: var(--muted);
+  max-width: min(22rem, 100%);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Export: zwei klare „Spuren“ statt Absatztext */
+.export-signage {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.65rem 0 0;
+}
+
+.export-signage__lane {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.65rem;
+  flex: 1 1 12rem;
+  min-width: min(100%, 14rem);
+  padding: 0.45rem 0.65rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.export-signage__lane--fs {
+  background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+  border-color: rgba(37, 99, 235, 0.25);
+}
+
+.export-signage__lane--zip {
+  background: linear-gradient(135deg, #fffbeb 0%, #ffffff 100%);
+  border-color: rgba(217, 119, 6, 0.3);
+}
+
+.export-signage__lane--pdf {
+  background: linear-gradient(135deg, #ffd4d4 0%, #ffffff 100%);
+  border-color: rgba(251, 2, 2, 0.28);
+}
+
+.export-signage__badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.45rem;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.export-signage__lane--fs .export-signage__badge {
+  color: #1d4ed8;
+  background: rgba(37, 99, 235, 0.12);
+}
+
+.export-signage__lane--zip .export-signage__badge {
+  color: #b45309;
+  background: rgba(217, 119, 6, 0.14);
+}
+
+.export-signage__lane--pdf .export-signage__badge {
+  color: #f0f0f0;
+  background: rgba(255, 0, 0, 0.62);
+}
+
+.export-signage__text {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #334155;
+  line-height: 1.35;
+}
+
+.inline-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+
+/* Excel-artige Tabelle – Spalten Lfd … Nachname fixiert, Rest horizontal scrollbar */
+.table-wrap.excel-wrap {
+  overflow-x: auto;
+  overflow-y: visible;
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Luft links, damit Status-Buttons nicht am Kantenradius „abgeschnitten“ wirken */
+#sheet-extern .table-wrap.excel-wrap,
+#sheet-tn .table-wrap.excel-wrap {
+  padding-left: 1.55rem;
+}
+
+.excel-table {
+  width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 12.5px;
+  font-family: var(--font);
+}
+
+/* Mindestbreite (ohne alte breite Symbol-Spalte, schmalere Lfd) */
+#liste-table.excel-table {
+  min-width: calc(1430px - 1.75rem - 0.875rem);
+}
+
+.excel-table thead th {
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid #e2e8f0;
+  border-bottom: 1px solid #cbd5e1;
+  padding: 8px 7px;
+  font-weight: 600;
+  text-align: left;
+  white-space: normal;
+  word-break: break-word;
+  vertical-align: bottom;
+  color: #334155;
+  letter-spacing: 0.01em;
+}
+
+.excel-table thead tr:first-child th {
+  border-top: none;
+}
+
+.excel-table tbody td {
+  border: 1px solid #e2e8f0;
+  padding: 4px 6px;
+  vertical-align: middle;
+  background: #ffffff;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.excel-table tbody tr:nth-child(even) td {
+  background: #f8fafc;
+}
+
+/* Absage: diskrete rote Zeilenmarkierung (Extern + TN + Serien) */
+#liste-table.excel-table tbody tr[data-status="absage"] td,
+#tn-table.excel-table tbody tr[data-status="absage"] td,
+#serien-table.excel-table tbody tr[data-status="absage"] td {
+  background: #fff5f5;
+}
+
+#liste-table.excel-table tbody tr[data-status="absage"]:nth-child(even) td,
+#tn-table.excel-table tbody tr[data-status="absage"]:nth-child(even) td,
+#serien-table.excel-table tbody tr[data-status="absage"]:nth-child(even) td {
+  background: #ffecec;
+}
+
+/* Zusage: diskrete grüne Zeilenmarkierung (Extern + TN + Serien) */
+#liste-table.excel-table tbody tr[data-status="zusage"] td,
+#tn-table.excel-table tbody tr[data-status="zusage"] td,
+#serien-table.excel-table tbody tr[data-status="zusage"] td {
+  background: #f0fdf4;
+}
+
+#liste-table.excel-table tbody tr[data-status="zusage"]:nth-child(even) td,
+#tn-table.excel-table tbody tr[data-status="zusage"]:nth-child(even) td,
+#serien-table.excel-table tbody tr[data-status="zusage"]:nth-child(even) td {
+  background: #ecfdf5;
+}
+
+/* Einladung & Offen: eigene Zeilenfarbe (schneller erfassbar als nur Fähnchen) */
+#liste-table.excel-table tbody tr[data-status="einladen"] td,
+#tn-table.excel-table tbody tr[data-status="einladen"] td,
+#serien-table.excel-table tbody tr[data-status="einladen"] td {
+  background: #fffbeb;
+}
+
+#liste-table.excel-table tbody tr[data-status="einladen"]:nth-child(even) td,
+#tn-table.excel-table tbody tr[data-status="einladen"]:nth-child(even) td,
+#serien-table.excel-table tbody tr[data-status="einladen"]:nth-child(even) td {
+  background: #fef9c3;
+}
+
+#liste-table.excel-table tbody tr[data-status="offen"] td,
+#tn-table.excel-table tbody tr[data-status="offen"] td,
+#serien-table.excel-table tbody tr[data-status="offen"] td {
+  background: #f0f9ff;
+}
+
+#liste-table.excel-table tbody tr[data-status="offen"]:nth-child(even) td,
+#tn-table.excel-table tbody tr[data-status="offen"]:nth-child(even) td,
+#serien-table.excel-table tbody tr[data-status="offen"]:nth-child(even) td {
+  background: #e0f2fe;
+}
+
+/* Schraffur nur in der abgerundeten Eingabefläche (siehe JS: cell-input--schraffiert) */
+#liste-table.excel-table tbody tr .cell-input.cell-input--schraffiert,
+#tn-table.excel-table tbody tr .cell-input.cell-input--schraffiert {
+  background-color: rgba(248, 250, 252, 0.98);
+  background-image: repeating-linear-gradient(
+    -32deg,
+    rgba(255, 255, 255, 0.55),
+    rgba(255, 255, 255, 0.55) 2px,
+    rgba(148, 163, 184, 0.22) 2px,
+    rgba(148, 163, 184, 0.22) 3px
+  );
+  border: 1px solid rgba(203, 213, 225, 0.95);
+}
+
+#liste-table.excel-table tbody tr .cell-input.cell-input--schraffiert:hover,
+#tn-table.excel-table tbody tr .cell-input.cell-input--schraffiert:hover {
+  background-color: rgba(255, 255, 255, 0.98);
+  background-image: repeating-linear-gradient(
+    -32deg,
+    rgba(255, 255, 255, 0.65),
+    rgba(255, 255, 255, 0.65) 2px,
+    rgba(148, 163, 184, 0.18) 2px,
+    rgba(148, 163, 184, 0.18) 3px
+  );
+}
+
+#liste-table.excel-table tbody tr .cell-input.cell-input--schraffiert:focus,
+#tn-table.excel-table tbody tr .cell-input.cell-input--schraffiert:focus {
+  background-image: none;
+  background-color: #ffffff;
+}
+
+/* Status: Schraffur im abgerundeten Segment-Bereich */
+#liste-table.excel-table tbody tr td.cell-status.cell-status--schraffiert .cell-status-radios.status-segmented,
+#tn-table.excel-table tbody tr td.cell-status.cell-status--schraffiert .cell-status-radios.status-segmented {
+  position: relative;
+  margin: 2px 3px;
+  padding: 2px 3px;
+  border-radius: 6px;
+  border: 1px solid rgba(203, 213, 225, 0.95);
+  overflow: hidden;
+  background: transparent;
+}
+
+#liste-table.excel-table tbody tr td.cell-status.cell-status--schraffiert .cell-status-radios.status-segmented::before,
+#tn-table.excel-table tbody tr td.cell-status.cell-status--schraffiert .cell-status-radios.status-segmented::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  background-color: rgba(248, 250, 252, 0.98);
+  background-image: repeating-linear-gradient(
+    -32deg,
+    rgba(255, 255, 255, 0.55),
+    rgba(255, 255, 255, 0.55) 2px,
+    rgba(148, 163, 184, 0.22) 2px,
+    rgba(148, 163, 184, 0.22) 3px
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+#liste-table.excel-table tbody tr td.cell-status.cell-status--schraffiert .status-segment,
+#tn-table.excel-table tbody tr td.cell-status.cell-status--schraffiert .status-segment {
+  position: relative;
+  z-index: 1;
+}
+
+#liste-table.excel-table tbody tr td.cell-status.cell-status--schraffiert:focus-within .cell-status-radios.status-segmented::before,
+#tn-table.excel-table tbody tr td.cell-status.cell-status--schraffiert:focus-within .cell-status-radios.status-segmented::before {
+  opacity: 0;
+}
+
+/* Gleicher Vor- und Nachname wie in einer anderen Zeile derselben Liste */
+#liste-table.excel-table tbody tr.row-duplicate-name > td:first-child,
+#tn-table.excel-table tbody tr.row-duplicate-name > td:first-child {
+  box-shadow: inset 4px 0 0 0 rgba(234, 88, 12, 0.88);
+}
+
+/* Serien-Tabelle: nur dezenter Hinweis (keine editierbaren Zellen) */
+#serien-table.excel-table tbody tr.row-incomplete td {
+  box-shadow: inset 0 0 0 9999px rgba(148, 163, 184, 0.12);
+}
+
+#serien-table.excel-table tbody tr.row-incomplete:focus-within td {
+  box-shadow: none;
+}
+
+#liste-table.excel-table tbody tr .cell-input.cell-input--schraffiert::placeholder,
+#tn-table.excel-table tbody tr .cell-input.cell-input--schraffiert::placeholder {
+  color: #94a3b8;
+}
+
+/* Status-Symbole nur in Spalte .cell-status-icon (links neben Nr.), nicht in der Lfd-Zelle */
+
+.filter-row th {
+  background: rgba(13, 148, 136, 0.05) !important;
+  vertical-align: middle;
+  padding: 0.35rem 0.4rem 0.45rem !important;
+  border-top: 1px solid #cbd5e1 !important;
+  border-top-style: dashed !important;
+}
+
+.filter-row th:not(.filter-corner) {
+  border-bottom-color: #e2e8f0 !important;
+}
+
+.filter-corner {
+  vertical-align: middle !important;
+}
+
+/* Linke Ecke: gleicher Grund wie Filterzeile (für Sticky nötig, nicht transparent) */
+#liste-table.excel-table thead.filter-row th.filter-corner {
+  background: rgba(13, 148, 136, 0.06) !important;
+}
+
+.filter-row-label {
+  display: block;
+  font-size: 9px;
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #64748b;
+  text-align: center;
+  padding: 0.15rem 0.1rem;
+  max-width: 100%;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+/* Filter-Ecke: Icon statt langem Wort */
+.filter-row-label--sign {
+  font-size: 0;
+  line-height: 0;
+  color: transparent;
+  text-indent: -9em;
+  padding: 0.2rem;
+  min-height: 1.75rem;
+}
+
+.filter-row-label--sign::after {
+  content: "";
+  display: block;
+  width: 1.15rem;
+  height: 1.15rem;
+  margin: 0 auto;
+  opacity: 0.92;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%230d9488' d='M4 4h16v2.5H4V4zm2 5h12v2H6V9zm2 5h8v2H8v-2zm2 5h4v2h-4v-2z'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+}
+
+.filter-select {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text);
+  padding: 0.3rem 1.5rem 0.3rem 0.35rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23475569' d='M3 4.5L6 7.5L9 4.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.35rem center;
+  appearance: none;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+.filter-select:hover {
+  border-color: #94a3b8;
+  background-color: #f8fafc;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+  background-color: #fff;
+}
+
+.cell-input {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  font: inherit;
+  font-size: 12.5px;
+  padding: 4px 6px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+}
+
+.cell-input:hover {
+  background: rgba(248, 250, 252, 0.95);
+}
+
+.cell-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: #fff;
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+
+/* Status-Spalte: Segment-Control (eine Leiste, klickbare Felder) */
+.cell-status {
+  padding: 0 !important;
+  vertical-align: stretch;
+  display: flex;
+  flex-direction: column;
+}
+
+.excel-table tbody td.cell-status {
+  padding: 0 !important;
+}
+
+.cell-status-radios.status-segmented {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  justify-content: stretch;
+  flex: 1 1 auto;
+  gap: var(--status-segment-gap);
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 2.25rem;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
+  background: transparent;
+  box-sizing: border-box;
+  padding: 1px 0;
+}
+
+.status-segment {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0.2rem 0.12rem;
+  font-size: 8px;
+  font-weight: 500;
+  line-height: 1.15;
+  cursor: pointer;
+  user-select: none;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--status-btn-radius);
+  background: #fff;
+  flex: 1 1 0;
+  min-width: 0;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, filter 0.15s ease,
+    border-color 0.2s ease;
+}
+
+.status-segment-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  opacity: 0;
+}
+
+/* Vier Zustände: im Ruhezustand wie übrige Segmente (keine Regenbogen-Leiste) */
+.status-segment:has(.status-segment-input[value="einladen"]),
+.status-segment:has(.status-segment-input[value="offen"]),
+.status-segment:has(.status-segment-input[value="absage"]),
+.status-segment:has(.status-segment-input[value="zusage"]) {
+  background: #fff;
+  color: #64748b;
+  border-color: #e2e8f0;
+  font-weight: 500;
+}
+
+.status-segment:has(.status-segment-input[value="einladen"]):has(.status-segment-input:not(:checked)):hover,
+.status-segment:has(.status-segment-input[value="offen"]):has(.status-segment-input:not(:checked)):hover,
+.status-segment:has(.status-segment-input[value="absage"]):has(.status-segment-input:not(:checked)):hover,
+.status-segment:has(.status-segment-input[value="zusage"]):has(.status-segment-input:not(:checked)):hover {
+  background: #f8fafc;
+  color: #475569;
+}
+
+/* Ausgewählt: flache Fläche + dezente Randbetonung (ohne Verläufe/Streulicht) */
+.status-segment:has(.status-segment-input[value="einladen"]):has(.status-segment-input:checked) {
+  background: #fffbeb;
+  color: #713f12;
+  font-weight: 600;
+  border-color: rgba(161, 98, 7, 0.35);
+  box-shadow: inset 3px 0 0 0 var(--status-flag-einladen);
+}
+
+.status-segment:has(.status-segment-input[value="einladen"]):has(.status-segment-input:checked):hover {
+  background: #fef3c7;
+}
+
+.status-segment:has(.status-segment-input[value="offen"]):has(.status-segment-input:checked) {
+  background: #f0f9ff;
+  color: #0c4a6e;
+  font-weight: 600;
+  border-color: rgba(3, 105, 161, 0.4);
+  box-shadow: inset 3px 0 0 0 var(--status-flag-offen);
+}
+
+.status-segment:has(.status-segment-input[value="offen"]):has(.status-segment-input:checked):hover {
+  background: #e0f2fe;
+}
+
+.status-segment:has(.status-segment-input[value="absage"]):has(.status-segment-input:checked) {
+  background: #fff1f2;
+  color: #881337;
+  font-weight: 600;
+  border-color: rgba(159, 18, 57, 0.35);
+  box-shadow: inset 3px 0 0 0 var(--status-flag-absage);
+}
+
+.status-segment:has(.status-segment-input[value="absage"]):has(.status-segment-input:checked):hover {
+  background: #ffe4e6;
+}
+
+.status-segment:has(.status-segment-input[value="zusage"]):has(.status-segment-input:checked) {
+  background: #ecfdf5;
+  color: #065f46;
+  font-weight: 600;
+  border-color: rgba(4, 120, 87, 0.35);
+  box-shadow: inset 3px 0 0 0 var(--status-flag-zusage);
+}
+
+.status-segment:has(.status-segment-input[value="zusage"]):has(.status-segment-input:checked):hover {
+  background: #d1fae5;
+}
+
+.status-segment:has(.status-segment-input:focus-visible) {
+  outline: 2px solid rgba(100, 116, 139, 0.45);
+  outline-offset: 2px;
+  z-index: 1;
+}
+
+.status-segment-text {
+  pointer-events: none;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* TN-Liste: etwas kleinere Schrift (gleiche Breitenlogik) */
+.tn-status-radios.status-segmented .status-segment {
+  font-size: 7.5px;
+  padding: 0.16rem 0.08rem;
+}
+
+/*
+ * Liste: Spalten 1–8 (Symbol, Nr., Status … Nachname) fixiert.
+ * Spalten 9+ scrollen im .table-wrap.
+ */
+#liste-table.excel-table thead th:nth-child(1) {
+  position: sticky;
+  left: var(--liste-left-1);
+  z-index: 5;
+  width: 0;
+  min-width: 0;
+  max-width: 0;
+  padding: 0;
+  overflow: hidden;
+  border-left: none;
+  border-right: none;
+  box-sizing: border-box;
+}
+
+#liste-table.excel-table tbody td:nth-child(1) {
+  position: sticky;
+  left: var(--liste-left-1);
+  z-index: 4;
+  width: 0;
+  min-width: 0;
+  max-width: 0;
+  padding: 0;
+  border: none;
+  overflow: visible;
+  box-sizing: border-box;
+  vertical-align: middle;
+}
+
+#liste-table.excel-table thead th:nth-child(2),
+#liste-table.excel-table tbody td:nth-child(2) {
+  position: sticky;
+  left: var(--liste-left-2);
+  z-index: 3;
+  width: var(--liste-w-lfd);
+  min-width: var(--liste-w-lfd);
+  max-width: var(--liste-w-lfd);
+  box-sizing: border-box;
+  border-left: 1px solid #94a3b8;
+  border-right: 1px solid #94a3b8;
+}
+
+#liste-table.excel-table thead th:nth-child(3),
+#liste-table.excel-table tbody td:nth-child(3) {
+  position: sticky;
+  left: var(--liste-left-3);
+  z-index: 3;
+  width: var(--liste-w-status);
+  min-width: var(--liste-w-status);
+  box-sizing: border-box;
+}
+
+#liste-table.excel-table thead th:nth-child(4),
+#liste-table.excel-table tbody td:nth-child(4) {
+  position: sticky;
+  left: var(--liste-left-4);
+  z-index: 3;
+  width: var(--liste-w-firma);
+  min-width: var(--liste-w-firma);
+  box-sizing: border-box;
+}
+
+#liste-table.excel-table thead th:nth-child(5),
+#liste-table.excel-table tbody td:nth-child(5) {
+  position: sticky;
+  left: var(--liste-left-5);
+  z-index: 3;
+  width: var(--liste-w-anrede);
+  min-width: var(--liste-w-anrede);
+  box-sizing: border-box;
+}
+
+#liste-table.excel-table thead th:nth-child(6),
+#liste-table.excel-table tbody td:nth-child(6) {
+  position: sticky;
+  left: var(--liste-left-6);
+  z-index: 3;
+  width: var(--liste-w-titel);
+  min-width: var(--liste-w-titel);
+  box-sizing: border-box;
+}
+
+#liste-table.excel-table thead th:nth-child(7),
+#liste-table.excel-table tbody td:nth-child(7) {
+  position: sticky;
+  left: var(--liste-left-7);
+  z-index: 3;
+  width: var(--liste-w-vorname);
+  min-width: var(--liste-w-vorname);
+  box-sizing: border-box;
+}
+
+#liste-table.excel-table thead th:nth-child(8),
+#liste-table.excel-table tbody td:nth-child(8) {
+  position: sticky;
+  left: var(--liste-left-8);
+  z-index: 3;
+  width: var(--liste-w-nachname);
+  min-width: var(--liste-w-nachname);
+  box-sizing: border-box;
+  box-shadow: 6px 0 14px -8px rgba(15, 23, 42, 0.2);
+}
+
+#liste-table.excel-table thead tr:first-child th:nth-child(-n + 8) {
+  z-index: 5;
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+#liste-table.excel-table thead.filter-row th:nth-child(-n + 8) {
+  z-index: 5;
+  background: rgba(13, 148, 136, 0.06) !important;
+}
+
+/* Rechte Spalten: mit horizontal scrollen */
+#liste-table.excel-table th:nth-child(9),
+#liste-table.excel-table td:nth-child(9) {
+  width: 11%;
+}
+#liste-table.excel-table th:nth-child(10),
+#liste-table.excel-table td:nth-child(10) {
+  width: 7%;
+}
+#liste-table.excel-table th:nth-child(11),
+#liste-table.excel-table td:nth-child(11) {
+  width: 9%;
+}
+#liste-table.excel-table th:nth-child(12),
+#liste-table.excel-table td:nth-child(12) {
+  width: 4%;
+}
+#liste-table.excel-table th:nth-child(13),
+#liste-table.excel-table td:nth-child(13) {
+  width: 5%;
+}
+#liste-table.excel-table th:nth-child(14),
+#liste-table.excel-table td:nth-child(14) {
+  width: 7%;
+}
+#liste-table.excel-table th:nth-child(15),
+#liste-table.excel-table td:nth-child(15) {
+  width: 9%;
+}
+#liste-table.excel-table th:nth-child(16),
+#liste-table.excel-table td:nth-child(16) {
+  width: 3%;
+}
+
+.cell-lfd {
+  text-align: center;
+  color: #64748b;
+  font-variant-numeric: tabular-nums;
+  font-size: 11.5px;
+  vertical-align: middle;
+}
+
+/* Status-Indikator: ::after = farbiger Kreis */
+.cell-status-icon {
+  vertical-align: middle;
+  padding: 0;
+  border: none;
+  background: transparent;
+  position: relative;
+  overflow: visible;
+}
+
+#liste-table.excel-table tbody tr[data-status="einladen"] td.cell-status-icon,
+#liste-table.excel-table tbody tr[data-status="offen"] td.cell-status-icon,
+#liste-table.excel-table tbody tr[data-status="absage"] td.cell-status-icon,
+#liste-table.excel-table tbody tr[data-status="zusage"] td.cell-status-icon,
+#tn-table.excel-table tbody tr[data-status="einladen"] td.cell-status-icon,
+#tn-table.excel-table tbody tr[data-status="offen"] td.cell-status-icon,
+#tn-table.excel-table tbody tr[data-status="absage"] td.cell-status-icon,
+#tn-table.excel-table tbody tr[data-status="zusage"] td.cell-status-icon {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* Zeilen ohne Status: kein Fähnchen, keine Fläche */
+#liste-table.excel-table tbody tr[data-status=""] td.cell-status-icon,
+#tn-table.excel-table tbody tr[data-status=""] td.cell-status-icon {
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  background: transparent !important;
+  pointer-events: none;
+}
+
+#liste-table.excel-table tbody tr[data-status=""] td.cell-status-icon::before,
+#liste-table.excel-table tbody tr[data-status=""] td.cell-status-icon::after,
+#tn-table.excel-table tbody tr[data-status=""] td.cell-status-icon::before,
+#tn-table.excel-table tbody tr[data-status=""] td.cell-status-icon::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Vollflächige Farbkreise (gleiche Kantenlänge → border-radius 50%) */
+#liste-table.excel-table tbody tr[data-status="einladen"] td.cell-status-icon::after,
+#tn-table.excel-table tbody tr[data-status="einladen"] td.cell-status-icon::after {
+  content: "";
+  position: absolute;
+  right: 2px;
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: var(--status-flag-size);
+  height: var(--status-flag-size);
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-radius: 50%;
+  background: var(--status-flag-einladen);
+  box-shadow: var(--status-flag-shadow);
+  z-index: 0;
+  pointer-events: none;
+}
+
+#liste-table.excel-table tbody tr[data-status="offen"] td.cell-status-icon::after,
+#tn-table.excel-table tbody tr[data-status="offen"] td.cell-status-icon::after {
+  content: "";
+  position: absolute;
+  right: 2px;
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: var(--status-flag-size);
+  height: var(--status-flag-size);
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-radius: 50%;
+  background: var(--status-flag-offen);
+  box-shadow: var(--status-flag-shadow);
+  z-index: 0;
+  pointer-events: none;
+}
+
+#liste-table.excel-table tbody tr[data-status="absage"] td.cell-status-icon::after,
+#tn-table.excel-table tbody tr[data-status="absage"] td.cell-status-icon::after {
+  content: "";
+  position: absolute;
+  right: 2px;
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: var(--status-flag-size);
+  height: var(--status-flag-size);
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-radius: 50%;
+  background: var(--status-flag-absage);
+  box-shadow: var(--status-flag-shadow);
+  z-index: 0;
+  pointer-events: none;
+}
+
+#liste-table.excel-table tbody tr[data-status="zusage"] td.cell-status-icon::after,
+#tn-table.excel-table tbody tr[data-status="zusage"] td.cell-status-icon::after {
+  content: "";
+  position: absolute;
+  right: 2px;
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: var(--status-flag-size);
+  height: var(--status-flag-size);
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-radius: 50%;
+  background: var(--status-flag-zusage);
+  box-shadow: var(--status-flag-shadow);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.col-action {
+  width: 2rem;
+  text-align: center;
+}
+
+.btn-tiny {
+  font: inherit;
+  font-size: 12px;
+  padding: 3px 7px;
+  min-height: 0;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.65);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btn-tiny:hover {
+  background: #fff;
+  border-color: #cbd5e1;
+}
+
+.btn-tiny.danger {
+  color: #a02820;
+  border-color: rgba(160, 40, 32, 0.25);
+}
+
+.empty-hint {
+  text-align: center;
+  color: #475569;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  padding: 1.35rem 1rem !important;
+  border-left: 4px solid #cbd5e1 !important;
+  background: linear-gradient(90deg, #f1f5f9 0%, #f8fafc 100%) !important;
+}
+
+#liste-table.excel-table tbody td.empty-hint,
+#tn-table.excel-table tbody td.empty-hint {
+  border: 1px solid #e2e8f0 !important;
+}
+
+#serien-table {
+  min-width: 0;
+  width: 100%;
+}
+
+.serien-filter-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #0f766e;
+  margin-right: 0.35rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 6px;
+  background: rgba(13, 148, 136, 0.1);
+}
+
+.event-grid .serien-export-what {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.75rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.event-grid .serien-export-what .radio-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.event-grid .serien-export-what input {
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.serien-filter-radios {
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.serien-filter-radios .radio-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.serien-filter-radios input {
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+#serien-table .col-check {
+  width: 2rem;
+}
+
+@media (max-width: 900px) {
+  .event-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Responsive-Feinschliff – bewahrt die Architektur, optimiert Touch & enge Screens */
+@media (max-width: 720px) {
+  .wrap {
+    padding: 1rem clamp(0.6rem, 3vw, 1rem) 2rem;
+  }
+  .page-header h1 {
+    font-size: 1.15rem;
+    letter-spacing: 0.05em;
+  }
+  .page-header .app-title-input {
+    font-size: 1.15rem;
+    letter-spacing: 0.05em;
+  }
+  .lead {
+    font-size: 0.9rem;
+  }
+  .toolbar {
+    padding: 0.55rem 0.65rem;
+    gap: 0.4rem 0.6rem;
+  }
+  .tabs {
+    gap: 0.2rem;
+    padding: 0.2rem;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tab {
+    padding: 0.45rem 0.75rem;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    white-space: nowrap;
+  }
+  .serien-filter-radios {
+    gap: 0.35rem 0.5rem;
+  }
+  /* Modal-Startkacheln: komfortable Größe auf schmalen Bildschirmen */
+  .modal-actions-start-tiles {
+    gap: 0.45rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .page-header h1 {
+    font-size: 1.05rem;
+    letter-spacing: 0.045em;
+  }
+  .page-header .app-title-input {
+    font-size: 1.05rem;
+    letter-spacing: 0.045em;
+  }
+  .toolbar {
+    padding: 0.5rem 0.55rem;
+  }
+  /* iOS zoom beim Fokussieren von Eingabefeldern verhindern (min 16px) */
+  input[type="text"],
+  input[type="email"],
+  textarea,
+  .cell-input,
+  .filter-select {
+    font-size: 16px;
+  }
+  .cell-input {
+    padding: 5px 6px;
+  }
+  /* Tabellen: angenehmere Tap-Targets */
+  .excel-table tbody td {
+    padding: 6px 7px;
+  }
+  .btn-tiny {
+    min-height: 28px;
+    min-width: 28px;
+  }
+  /* „+“ Hauptliste auf schmalen Screens leicht größer */
+  .list-set-add-btn {
+    min-height: calc(var(--control-min-h) - 2px);
+    min-width: 2.4rem;
+  }
+  /* TN-Liste darf auf schmalen Screens die volle Breite nutzen */
+  #sheet-tn .table-wrap.excel-wrap {
+    max-width: 100%;
+  }
+  /* Signage-Boxen (Serienbrief) stapeln, damit Badges nicht abschneiden */
+  .export-signage__lane {
+    flex: 1 1 100%;
+  }
+  .template-file-label {
+    max-width: 100%;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+}
+
+/* Fixed-Position-Feinheiten bei iOS: Safe-Area am unteren Rand respektieren */
+@supports (padding: max(0px)) {
+  .wrap {
+    padding-bottom: max(3rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* Reduzierte Animationen respektieren */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Dezenter Dark-Mode-Fallback: Tabellen nicht grell */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: light;
+  }
+}
+
+/* =========================================================================
+ * DESIGN POLISH — ruhige Palette, weiche Schatten, einheitliche Aktiv-States.
+ * Dieser Block überschreibt ältere Regeln bewusst am Ende der Datei.
+ * ========================================================================= */
+
+:root {
+  --polish-ink: #0b1220;
+  --polish-ink-soft: #1f2937;
+  --polish-muted: #64748b;
+  --polish-line: #e5e7eb;
+  --polish-line-soft: rgba(15, 23, 42, 0.06);
+  --polish-surface: #ffffff;
+  --polish-surface-2: #f8fafc;
+  --polish-accent: #0d9488;
+  --polish-accent-soft: rgba(13, 148, 136, 0.1);
+  --polish-accent-ring: rgba(13, 148, 136, 0.28);
+  --polish-shadow-xs: 0 1px 1px rgba(15, 23, 42, 0.04);
+  --polish-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04), 0 2px 8px rgba(15, 23, 42, 0.045);
+  --polish-shadow-md: 0 8px 28px -8px rgba(15, 23, 42, 0.18);
+  --polish-radius: 12px;
+  --polish-radius-sm: 9px;
+  --polish-font-heading: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  /* App-Titel neben Logo: klar serifenlos, leicht */
+  --polish-font-app-title: system-ui, -apple-system, "Segoe UI", "Source Sans 3", sans-serif;
+}
+
+body {
+  background: #f6f8fb;
+  background-image:
+    radial-gradient(1200px 600px at 80% -10%, rgba(13, 148, 136, 0.05), transparent 60%),
+    radial-gradient(900px 500px at -10% 10%, rgba(100, 116, 139, 0.06), transparent 55%),
+    linear-gradient(180deg, #fafbfd 0%, #f4f6fa 100%);
+  color: var(--polish-ink);
+  font-feature-settings: "ss01" on, "cv11" on;
+}
+
+/* Header: ruhiger, klare Hierarchie */
+.page-header {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--polish-line);
+}
+.brand-row {
+  align-items: center;
+  gap: 0.85rem 1rem;
+}
+.page-header h1 {
+  font-family: var(--polish-font-app-title);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  font-size: 1.28rem;
+  color: var(--polish-ink-soft);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+.page-header .app-title-input {
+  font-family: var(--polish-font-app-title);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  font-size: 1.28rem;
+  color: var(--polish-ink-soft);
+  border-bottom-color: var(--polish-line);
+}
+.page-header .app-title-input:focus {
+  border-bottom-color: var(--polish-accent);
+}
+.lead {
+  color: var(--polish-muted);
+}
+
+/* Haupt-Tabs: schlichte Segmente */
+.tabs {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: var(--polish-line);
+  box-shadow: var(--polish-shadow-xs);
+  padding: 0.25rem;
+  gap: 0.25rem;
+}
+.tab {
+  border-radius: 9px;
+  transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+.tab:hover:not(.active) {
+  background: rgba(15, 23, 42, 0.035);
+  color: var(--polish-ink);
+}
+.tab.active {
+  background: #ffffff;
+  color: var(--polish-ink);
+  font-weight: 600;
+  border: 1px solid var(--polish-line);
+  box-shadow: var(--polish-shadow-xs);
+}
+.tab.active::after {
+  content: "";
+  display: block;
+  width: 22px;
+  height: 2px;
+  margin: 4px auto 0;
+  border-radius: 2px;
+  background: var(--polish-accent);
+  opacity: 0.9;
+}
+
+/* Buttons: beruhigt, klarer Kontrast */
+button {
+  border-color: var(--polish-line);
+  background: var(--polish-surface);
+  box-shadow: var(--polish-shadow-xs);
+  transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, transform 0.08s ease, color 0.15s;
+}
+button:hover:not(:disabled) {
+  background: #fbfcfe;
+  border-color: #d5dbe3;
+  box-shadow: var(--polish-shadow-sm);
+}
+button.primary {
+  background: linear-gradient(180deg, #14b8a6 0%, #0d9488 100%);
+  border-color: rgba(13, 148, 136, 0.85);
+  box-shadow: 0 1px 2px rgba(13, 148, 136, 0.25), 0 6px 18px -6px rgba(13, 148, 136, 0.4);
+}
+button.primary:hover:not(:disabled) {
+  background: linear-gradient(180deg, #2dd4bf 0%, #0d9488 100%);
+  filter: brightness(1.02);
+}
+button.danger:hover:not(:disabled) {
+  background: #fff5f5;
+  border-color: #fca5a5;
+}
+button:focus-visible {
+  outline: 2px solid var(--polish-accent);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--polish-accent-ring);
+}
+
+/* Toolbars ruhiger, ohne starken Blur auf schwachen Geräten */
+.toolbar {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: var(--polish-line);
+  border-radius: var(--polish-radius);
+  box-shadow: var(--polish-shadow-xs);
+  backdrop-filter: saturate(1.05) blur(6px);
+  -webkit-backdrop-filter: saturate(1.05) blur(6px);
+}
+.toolbar.toolbar--liste {
+  border-radius: var(--polish-radius);
+}
+.app-toast {
+  border-color: var(--polish-line);
+  border-radius: var(--polish-radius);
+  box-shadow: var(--polish-shadow-xs);
+  backdrop-filter: saturate(1.05) blur(8px);
+  -webkit-backdrop-filter: saturate(1.05) blur(8px);
+}
+.app-toast.app-toast--serien {
+  border-color: rgba(13, 148, 136, 0.18);
+}
+.serien-toolbar.toolbar {
+  background: linear-gradient(180deg, #ffffff 0%, #fbfdfc 100%);
+  border-color: rgba(13, 148, 136, 0.18);
+}
+
+/* Serienbrief: Auswahl — dezente Grün-/Rot-Tönung */
+.serien-toolbar .btn-serien-select--all {
+  background: rgba(13, 148, 136, 0.09);
+  border-color: rgba(13, 148, 136, 0.26);
+}
+.serien-toolbar .btn-serien-select--all:hover:not(:disabled) {
+  background: rgba(13, 148, 136, 0.15);
+  border-color: rgba(13, 148, 136, 0.36);
+  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.1);
+}
+.serien-toolbar .btn-serien-select--all:focus-visible {
+  outline-color: rgba(13, 148, 136, 0.45);
+}
+
+.serien-toolbar .btn-serien-select--none {
+  background: rgba(225, 29, 72, 0.06);
+  border-color: rgba(225, 29, 72, 0.2);
+}
+.serien-toolbar .btn-serien-select--none:hover:not(:disabled) {
+  background: rgba(225, 29, 72, 0.11);
+  border-color: rgba(225, 29, 72, 0.3);
+  box-shadow: 0 2px 8px rgba(225, 29, 72, 0.08);
+}
+.serien-toolbar .btn-serien-select--none:focus-visible {
+  outline-color: rgba(225, 29, 72, 0.38);
+}
+
+/* Fieldsets / „Event-Boxen“: dünnere Akzentlinie, sauberer Background */
+.event-box {
+  border-color: var(--polish-line);
+  border-radius: var(--polish-radius);
+  box-shadow: var(--polish-shadow-xs);
+}
+.event-box--termin {
+  border-left: 3px solid var(--polish-accent);
+  background: linear-gradient(90deg, rgba(13, 148, 136, 0.045) 0%, #ffffff 8rem);
+}
+.event-box--export {
+  border-left: 3px solid #475569;
+  background: linear-gradient(90deg, rgba(71, 85, 105, 0.05) 0%, #ffffff 8rem);
+}
+.event-box legend {
+  color: var(--polish-muted);
+}
+
+/* Listen-Auswahl: eine ruhige Leiste, gleiche Aktiv-Sprache überall */
+.list-subtabs-bar {
+  background: #ffffff;
+  border-color: var(--polish-line);
+  border-radius: var(--polish-radius);
+  box-shadow: var(--polish-shadow-xs);
+  padding: 0.75rem 0.9rem;
+  gap: 0.55rem;
+}
+.list-tier--main {
+  border-bottom-color: var(--polish-line);
+}
+.list-tier__label {
+  color: var(--polish-muted);
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  font-size: 0.66rem;
+}
+.list-subtabs--segmented {
+  background: #f4f6fa;
+  border-color: var(--polish-line);
+  padding: 0.25rem;
+  border-radius: var(--polish-radius);
+}
+
+/* Unterlisten-Zeile: ein geschlossener Rahmen um Tab + × (wie Hauptlisten-Kacheln) */
+.list-subtab-wrap {
+  border-radius: var(--polish-radius-sm);
+}
+.list-subtab-wrap.active {
+  background: #ffffff;
+  border-color: var(--polish-line);
+  box-shadow: var(--polish-shadow-xs), inset 0 -2px 0 0 var(--polish-accent);
+}
+.list-subtab-wrap.active:has(.list-subtab--extra.active) {
+  box-shadow: var(--polish-shadow-xs), inset 0 -2px 0 0 #a78bfa;
+}
+
+/* Sub-Tabs (Extern / TN): einheitlich neutral, Aktiv = weiße Kachel mit Akzent */
+.list-subtab {
+  border-radius: var(--polish-radius-sm);
+  color: var(--polish-muted);
+  transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.list-subtab:hover {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(148, 163, 184, 0.35);
+  color: var(--polish-ink-soft);
+}
+.list-subtab__sub {
+  color: var(--polish-muted);
+  letter-spacing: 0.01em;
+}
+/* Aktiv: Erscheinungsbild sitzt auf .list-subtab-wrap, nicht auf dem Button (vermeidet „offene“ ×-Ränder) */
+.list-subtab--extern.active,
+.list-subtab--tn.active,
+.list-subtab--extra.active {
+  background: transparent;
+  color: var(--polish-ink);
+  border-color: transparent;
+  box-shadow: none;
+}
+.list-subtab--extern.active .list-subtab__sub,
+.list-subtab--tn.active .list-subtab__sub {
+  color: var(--polish-accent);
+  opacity: 1;
+}
+
+.list-subtab--extra.active .list-subtab__sub {
+  color: #7c3aed;
+  opacity: 1;
+}
+
+/* Hauptlisten-Kacheln: gleiche Gestalt wie Sub-Tabs */
+.list-set-tab-wrap {
+  border-radius: var(--polish-radius-sm);
+  background: transparent;
+  color: var(--polish-muted);
+  transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.list-set-tab-wrap:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(148, 163, 184, 0.35);
+  color: var(--polish-ink-soft);
+}
+.list-set-tab-wrap.active {
+  background: #ffffff;
+  color: var(--polish-ink);
+  border-color: var(--polish-line);
+  box-shadow: var(--polish-shadow-xs), inset 0 -2px 0 0 var(--polish-accent);
+}
+.list-set-tab-wrap.active .list-set-tab__body .list-subtab__sub {
+  color: var(--polish-accent);
+  opacity: 1;
+}
+.list-set-tab-wrap .list-set-tab {
+  border-radius: var(--polish-radius-sm) 0 0 var(--polish-radius-sm);
+}
+.list-set-tab-wrap:not(.has-remove) .list-set-tab {
+  border-radius: var(--polish-radius-sm);
+}
+.list-set-tab-remove {
+  border-radius: 0 var(--polish-radius-sm) var(--polish-radius-sm) 0;
+  border-left-color: rgba(148, 163, 184, 0.25);
+  color: var(--polish-muted);
+}
+.list-set-tab-wrap.active .list-set-tab-remove {
+  border-left-color: rgba(148, 163, 184, 0.35);
+  color: var(--polish-muted);
+}
+
+/* „+ Neue Hauptliste“: dezent, mit sanftem Akzent statt grünem Leuchten */
+.list-set-add-btn {
+  flex: 0 0 2.4rem;
+  width: 2.4rem;
+  min-width: 2.4rem;
+  font-size: 1.25rem;
+  color: var(--polish-muted);
+  border: 1px dashed rgba(148, 163, 184, 0.55);
+  background: transparent;
+  box-shadow: none;
+  border-radius: var(--polish-radius-sm);
+}
+.list-set-add-btn:hover {
+  color: var(--polish-accent);
+  border-color: var(--polish-accent);
+  border-style: solid;
+  background: var(--polish-accent-soft);
+  box-shadow: 0 0 0 3px var(--polish-accent-ring);
+}
+
+/* Eingabefelder weicher */
+input[type="text"],
+input[type="email"],
+textarea {
+  border-color: var(--polish-line);
+  background: var(--polish-surface);
+  box-shadow: inset 0 1px 0 rgba(15, 23, 42, 0.02);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+input[type="text"]:hover,
+input[type="email"]:hover,
+textarea:hover {
+  border-color: #cbd5e1;
+}
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--polish-accent);
+  box-shadow: 0 0 0 3px var(--polish-accent-ring);
+}
+
+/* Tabellen: klareres Linienwerk, weniger Zebra-Kontrast */
+.table-wrap.excel-wrap {
+  border-color: var(--polish-line);
+  border-radius: var(--polish-radius);
+  box-shadow: var(--polish-shadow-sm);
+  background: var(--polish-surface);
+}
+.excel-table thead th {
+  background: linear-gradient(180deg, #f9fafb 0%, #f3f4f6 100%);
+  border-color: var(--polish-line);
+  color: #334155;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.excel-table tbody td {
+  border-color: #eef0f3;
+}
+.excel-table tbody tr:nth-child(even) td {
+  background: #fafbfc;
+}
+
+/* Legenden-Chips: ruhiger (weniger knallig) */
+.leg-chip {
+  font-weight: 600;
+  padding: 0.18rem 0.5rem;
+}
+.leg-chip--einladen {
+  color: #854d0e;
+  background: #fff8e1;
+  border-color: rgba(217, 119, 6, 0.25);
+}
+.leg-chip--offen {
+  color: #075985;
+  background: #eaf6fd;
+  border-color: rgba(14, 165, 233, 0.25);
+}
+.leg-chip--zusage {
+  color: #14532d;
+  background: #e6f6ec;
+  border-color: rgba(22, 163, 74, 0.25);
+}
+.leg-chip--absage {
+  color: #9f1239;
+  background: #fde8ea;
+  border-color: rgba(225, 29, 72, 0.25);
+}
+
+/* Signage-Leiste (Serienbrief): subtiler Hintergrund */
+.serien-signage {
+  border-color: rgba(13, 148, 136, 0.18);
+  background: linear-gradient(90deg, rgba(13, 148, 136, 0.04) 0%, #ffffff 40%);
+  box-shadow: var(--polish-shadow-xs);
+}
+.signage-legend__title {
+  color: var(--polish-accent);
+  letter-spacing: 0.1em;
+}
+
+/* Filterzeile: ruhiger, weniger „giftig grün“ */
+.filter-row th {
+  background: #f7faf9 !important;
+  border-top-color: var(--polish-line) !important;
+}
+#liste-table.excel-table thead.filter-row th:nth-child(-n + 8),
+#liste-table.excel-table thead.filter-row th.filter-corner {
+  background: #f7faf9 !important;
+}
+.filter-select {
+  border-color: var(--polish-line);
+  box-shadow: inset 0 1px 0 rgba(15, 23, 42, 0.02);
+}
+.filter-select:focus {
+  border-color: var(--polish-accent);
+  box-shadow: 0 0 0 3px var(--polish-accent-ring);
+}
+
+/* Status-Segmente: kleine Kante in Akzentfarbe statt vielfarbiger Indikator */
+.status-segment:has(.status-segment-input:checked) {
+  border-color: rgba(15, 23, 42, 0.12);
+}
+
+/* Dialoge schlichter */
+dialog.modal {
+  border-radius: 14px;
+  border: 1px solid var(--polish-line);
+  box-shadow: 0 20px 60px -20px rgba(15, 23, 42, 0.35);
+}
+dialog.modal::backdrop {
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(2px);
+}
+.modal-start-tile {
+  border-radius: 12px !important;
+  box-shadow: var(--polish-shadow-xs) !important;
+}
+.modal-start-tile.primary {
+  box-shadow: 0 4px 14px -4px rgba(13, 148, 136, 0.45) !important;
+}
+
+/* Footer zurückhaltend */
+.footer-note {
+  background: transparent;
+  border: none;
+  color: var(--polish-muted);
+  padding: 0.5rem 0;
+  margin-top: 2rem;
+}
+
+/* Tastatur-Badge: dezenter */
+.kbd-badge {
+  background: #f1f5f9;
+  color: #334155;
+  border-color: var(--polish-line);
+  box-shadow: var(--polish-shadow-xs);
+  font-weight: 600;
+}
+
+/* Kleinere Visual-Flourishes */
+::selection {
+  background: rgba(13, 148, 136, 0.22);
+  color: var(--polish-ink);
+}
+
+/* Responsive-Polish: auf schmalen Screens mehr Ruhe */
+@media (max-width: 720px) {
+  .list-subtabs-bar {
+    padding: 0.6rem 0.7rem;
+  }
+  .tabs {
+    box-shadow: none;
+  }
+}
