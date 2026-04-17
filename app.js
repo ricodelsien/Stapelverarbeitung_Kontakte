@@ -4064,7 +4064,7 @@ async function exportSerienBriefFiles() {
     return;
   }
 
-  const subjectTpl = eventSettings.serienMailSubject || "Einladung zur Abschluss- und Auftaktveranstaltung des Lehrgangs „Ausbildungsvorbereitung Öffentlicher Dienst";
+  const subjectTpl = eventSettings.serienMailSubject || "Einladung zur Abschluss- und Auftaktveranstaltung des Lehrgangs „Ausbildungsvorbereitung Öffentlicher Dienst"";
 
   let dirHandle = null;
   if (typeof window.showDirectoryPicker === "function") {
